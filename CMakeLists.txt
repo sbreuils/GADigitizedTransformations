@@ -51,7 +51,7 @@ file(GLOB_RECURSE source_files src/*.cpp include/*.h)
 message(STATUS "  files " ${source_files})
 
 # compile
-add_executable(gaDigitalTransfo ${source_files})
+add_executable(gaDigitalTransfo ${source_files} include/GADigitizedRotation.h include/GAPixelTransformation.h)
 
 # link libs
 include_directories(${EIGEN3_INCLUDE_DIR}
