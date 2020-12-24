@@ -83,6 +83,22 @@ public:
         p1_           = _mm_mul_ps(p1_, _mm_set_ps(scale, scale, scale, 1.f));
     }
 
+    /// Convenience constructor. Computes transcendentals and normalizes
+    /// rotation axis is simply ez.
+//    rotor(float k1, float k2) noexcept
+//    {
+//        float norm     = std::sqrt(x * x + y * y + z * z);
+//        float inv_norm = 1.f / norm;
+//
+//        float half = 0.5f * ang_rad;
+//        // Rely on compiler to coalesce these two assignments into a single
+//        // sincos call at instruction selection time
+//        float sin_ang = std::sin(half);
+//        float scale   = sin_ang * inv_norm;
+//        p1_           = _mm_set_ps(z, y, x, std::cos(half));
+//        p1_           = _mm_mul_ps(p1_, _mm_set_ps(scale, scale, scale, 1.f));
+//    }
+
     rotor(euler_angles ea) noexcept
     {
         // https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#cite_note-3

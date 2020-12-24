@@ -32,7 +32,7 @@ struct GATriplet
 void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, int& height, int& width);
 
 /// write the resulting pixels (kln points, gray levels) into an image
-void writeSceneInImage(std::string imagePath, const std::vector<GATriplet> pixels, const int width,
+void writeSceneInImage(std::string imagePath, const std::vector<GATriplet>& pixels, const int width,
                        const int height);
 
 #endif //GADIGITALTRANSFO_SCENE_H
