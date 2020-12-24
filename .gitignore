@@ -30,3 +30,19 @@
 *.exe
 *.out
 *.app
+
+# meta
+Functions/*.exe
+Metaprogramming/*.hpp
+
+.gitignore
+
+build/*
+cmake-build-debug/*
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
