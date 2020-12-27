@@ -29,7 +29,6 @@ public:
     inline
     kln::point operator()( const kln::point & p ) const override
     {
-        std::cout << "operator () on rotations of points" <<std::endl;
         kln::point pout_real= _q(p);
         kln::point pout_inte = kln::point(round(pout_real.x()),round(pout_real.y()),0.0);
 
