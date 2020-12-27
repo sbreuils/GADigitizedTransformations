@@ -14,22 +14,38 @@ class GAPixelTransformation
 public:
 
     // a reflection can be defined from the normal vector (consider that the hyperplane passes through the origin)
-    GAPixelTransformation (const double& param):_param(param)
-    {
-    }
+    // parameters have to be a transformation
+//    GAPixelTransformation (const GADigitizedTransformation& transfo):_gaDigitizedTransfo(transfo)
+//    {
+//    }
+    virtual ~GAPixelTransformation(){};
 
+    virtual GADigitizedTransformation* init() const = 0;
 
     inline
     GATriplet operator()( const GATriplet & pix ) const
     {
-        GADigitizedRotation transfo(_param);
-        GATriplet pixel_out = {transfo(pix.klnPt),pix.val};
-
+        // GADigitizedRotation transfo(_param);
+        GADigitizedTransformation* GadigitizedTranfo = this->init(); // create a digitized transformation
+        GATriplet pixel_out = {(*GadigitizedTranfo)(pix.klnPt),pix.val};
+        delete GadigitizedTranfo;
         return pixel_out;
     }
 
 private:
-    double _param;
+//    GADigitizedTransformation* _gaDigitizedTransfo;
+};
+
+
+class GADigitizedRotationCreator : public GAPixelTransformation{
+public:
+    explicit GADigitizedRotationCreator(double angle):_angle(angle){}
+
+    GADigitizedTransformation* init() const override{
+        return new GADigitizedRotation(_angle);
+    }
+private:
+    double _angle;
 };
 
 
