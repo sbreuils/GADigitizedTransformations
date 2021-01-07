@@ -28,6 +28,10 @@ struct GATriplet
     uchar val;
 };
 
+struct Z2Grid{
+    std::vector<kln::point> points;
+};
+
 /// load scene from image and convert it to a triplet kln point with gray level
 void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, int& height, int& width);
 
