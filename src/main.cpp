@@ -4,9 +4,8 @@
 
 #include <vector>
 
-#include "scene.h"
 #include "GADigitizedTransformationImage.h"
-
+#include "GADigitizedTransformationProperties.h"
 
 #define IMAGE 0
 #define GRID 1
@@ -57,9 +56,13 @@ int main(){
 #if GRID
     std::cout << "load Z2 grid as a grid of GA points ..." << std::endl;
     Z2Grid gaZ2Grid;
-    createZ2Grid(gaZ2Grid, 50, 50);
+    createZ2Grid(gaZ2Grid, 1000, 1000);
 
 
+    std::cout << "test involution of bijective digitized reflections ..." << std::endl;
+    bool isInvolution = isBijectiveDigitizedReflectionAnInvolution(gaZ2Grid,100);
+
+    (isInvolution) ? std::cout << "bijective digizited reflection is an involution" << std::endl : std::cout << "bijective digizited reflection is NOT an involution" << std::endl;
 
 #endif
 
