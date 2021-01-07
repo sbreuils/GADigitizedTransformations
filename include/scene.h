@@ -39,4 +39,11 @@ void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, i
 void writeSceneInImage(std::string imagePath, const std::vector<GATriplet>& pixels, const int width,
                        const int height);
 
+
+
+
+/// create a grid of Z2 (with only integer coordinates)
+void createZ2Grid()
+
+
 #endif //GADIGITALTRANSFO_SCENE_H
