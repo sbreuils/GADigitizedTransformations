@@ -7,6 +7,10 @@
 #include "scene.h"
 #include "GADigitizedTransformationImage.h"
 
+
+#define IMAGE 0
+#define GRID 1
+
 /// Create a rotor representing a pi/2 rotation about the z-axis
 /// Normalization is done automatically
 kln::rotor R{M_PI * 0.5f, 0.f, 0.f, 1.f};
@@ -24,6 +28,8 @@ kln::translator t{1.f, 0.f, 1.f, 1.f};
 
 
 int main(){
+
+#if IMAGE
     // define the scene
     std::vector<GATriplet> inputGAPixels;
     std::vector<GATriplet> transformedGAPixels;
@@ -46,8 +52,16 @@ int main(){
     // write the resulting pixels into an image
     std::cout << "write the transformed grid of GA points into an image ..." << std::endl;
     writeSceneInImage(outputImagePath, transformedGAPixels, width, height);
+#endif
+
+#if GRID
+    std::cout << "load Z2 grid as a grid of GA points ..." << std::endl;
+    Z2Grid gaZ2Grid;
+    createZ2Grid(gaZ2Grid, 50, 50);
 
 
+
+#endif
 
 	return 0;
 }

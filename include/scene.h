@@ -28,9 +28,7 @@ struct GATriplet
     uchar val;
 };
 
-struct Z2Grid{
-    std::vector<kln::point> points;
-};
+typedef std::vector<kln::point> Z2Grid;
 
 /// load scene from image and convert it to a triplet kln point with gray level
 void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, int& height, int& width);
@@ -43,7 +41,7 @@ void writeSceneInImage(std::string imagePath, const std::vector<GATriplet>& pixe
 
 
 /// create a grid of Z2 (with only integer coordinates)
-void createZ2Grid()
+void createZ2Grid(Z2Grid& pts, const int width, const int height);
 
 
 #endif //GADIGITALTRANSFO_SCENE_H

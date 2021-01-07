@@ -40,9 +40,6 @@ void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, i
             GATriplet currentPix = {kln::point(j-((int)imageResiz.cols/2),i-((int)imageResiz.rows/2),0.0),imageResiz.at<uchar>(i,j)};
             pixels.push_back(currentPix);
             }
-
-
-
 }
 
 
@@ -58,5 +55,16 @@ std::cout << "resulting height =" << height << ", width = "<< width << std::endl
     }
 
     cv::imwrite(imagePath,output);
+
+}
+
+
+void createZ2Grid(Z2Grid& pts, const int width, const int height){
+
+    for(int y =0 ; y< height ; ++y){
+        for(int x=0 ; x<width ; ++x){
+            pts.push_back(kln::point((int)x-((int)width/2),(int)y-((int)height/2),0));
+        }
+    }
 
 }

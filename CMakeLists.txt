@@ -5,8 +5,6 @@ project(gaDigitalTransfo)
 
 # include eigen
 find_package(Eigen3 REQUIRED)
-
-
 if(${EIGEN3_FOUND})
     message(STATUS "lib EIGEN3 found")
     message(STATUS "  version " ${EIGEN3_VERSION_STRING})
@@ -51,7 +49,7 @@ file(GLOB_RECURSE source_files src/*.cpp include/*.h)
 message(STATUS "  files " ${source_files})
 
 # compile
-add_executable(gaDigitalTransfo ${source_files} include/GADigitizedRotation.h include/GAPixelTransformation.h include/GADigitizedTransformationImage.h src/GADigitizedTransformationImage.cpp)
+add_executable(gaDigitalTransfo ${source_files})
 
 # link libs
 include_directories(${EIGEN3_INCLUDE_DIR}
