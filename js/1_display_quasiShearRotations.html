@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>New Distribution of angles for bijective rotations</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<script src="http://threejs.org/build/three.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src=DigitizedGeometryCreation.js></script>
+<script src=GridUtilities.js></script>
+<script src=DigitizedTransformation.js></script>
+<script src="lodash.js"></script>
+<script>
+
+
+  // Our Javascript will go here.
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  var camZPos = 8; // 24
+  camera.position.z = camZPos;
+
+  // add the grid of points
+  let N=5;
+  let posSquare = 3;
+  let geometry_Grid = createGrid(N);
+
+  console.log("create the z2 grid ...")
+  // scene.add(geometry_Grid );
+
+  console.log("add the digitized cells")
+  let XminScene = -(~~(N/2));
+  let XmaxScene = (~~(N/2));
+
+
+  let geometry_Cells = createCells(N,XminScene,XmaxScene);
+  scene.add(geometry_Cells );
+
+
+  console.log("reflect the z2 grid using a bijective digitized reflection  ...")
+
+  // compare with digital rotation obtained via reflections
+  let reflectedGrid = digitalReflectionOfPoints(geometry_Grid,[-1.0,2.0,0.0,0.0]);
+  scene.add(reflectedGrid);
+
+  let setRemaindersVectors = setOfRemainders(reflectedGrid);
+  scene.add(setRemaindersVectors);
+  // let digitalRotat = digitalRotation(geometry_Grid,theta)
+  // let digitalRotatInv = digitalRotation(digitalRotat,-theta)
+  // scene.add(digitalRotatInv );
+
+  /// compute the continuous rotation
+  // let continuousRotation = geometry_Grid.rotateZ(theta);
+  // scene.add(continuousRotation)
+
+  // let averageErrorShear = distanceCriteria(continuousRotation,third_vqs);
+  // console.log("Average error shear=",averageErrorShear);
+  //
+  // let averageErrorReflection = distanceCriteria(continuousRotation,digitalRotationFromReflections1);
+  // console.log("Average error reflection =",averageErrorReflection);
+
+
+  // let averageErrorRotation = distanceCriteria(continuousRotation,digitalRotat);
+  // console.log("Average error digital rotation =",averageErrorRotation);
+
+
+  // // add a circle
+  // scene.add(createCircle());
+  //
+  // // // add the set of bijective angles that make bijective reflections
+  // let resolution = 500;
+  // scene.add(createBijectiveDistributionCompositionOfReflection(resolution));
+  //
+  // // add the axis
+  // scene.add(...createXYAxis(-1.0,1.0));
+
+
+
+  // add a line
+
+
+
+  // scene.add(createPoint(  )
+  // scene.add(createLineFromTwoPoints([XminScene-0.5,XminScene-0.5],[XminScene-0.5,XmaxScene+0.5]))
+  // scene.add(createLineFromTwoPoints([XminScene+0.5,XminScene-0.5],[XminScene+0.5,XmaxScene+0.5]))
+  console.log("inner width ="+window.innerWidth)
+
+  /////////////////////////         TIME TO RENDER        ///////////////////////////////
+  // add the renderer to put the scene
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setClearColor(0xffffff);
+  document.body.appendChild( renderer.domElement );
+
+  // Animate function and call it
+  var animate = function () {
+    requestAnimationFrame( animate );
+
+    renderer.render( scene, camera );
+  };
+
+  animate();
+
+
+
+</script>
+</body>
+</html>
