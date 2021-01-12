@@ -78,12 +78,10 @@ function discretizeGeometry(geometryy){
     }
 }
 
-var setOfRemainders = function (reflectedVerticesGeometry){
-    console.log(reflectedVerticesGeometry)
-    // let geometryCells = new THREE.Geometry();
-    // let materialLines = new THREE.LineBasicMaterial({color: 0x0000ff});
+var setOfRemainders = function (reflectedVerticesGeometry,specifColor){
+
     let geometryRemainders = new THREE.Geometry();
-    let materialRemainders = new THREE.LineBasicMaterial({color: 0xff0000});
+    let materialRemainders = new THREE.LineBasicMaterial({color: specifColor});
 
 
     let setOfVectors=[];
@@ -91,9 +89,13 @@ var setOfRemainders = function (reflectedVerticesGeometry){
     for (let i = 0; i < reflectedVerticesGeometry.geometry.vertices.length ; i++) {
         // let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x- Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), reflectedVerticesGeometry.geometry.vertices[i].y- Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
         let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x, reflectedVerticesGeometry.geometry.vertices[i].y, 0 );
-        // dir.normalize();
+
         let origin = new THREE.Vector3( Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
-        // let length = dir.length();
+
+        // if(Math.round(reflectedVerticesGeometry.geometry.vertices[i].x) == 1.0 && Math.round(reflectedVerticesGeometry.geometry.vertices[i].y) == 1.0){
+        if(i == 29){
+            console.log("i = "+i+" ; vecRemainder = ("+ (Math.round(reflectedVerticesGeometry.geometry.vertices[i].x) -reflectedVerticesGeometry.geometry.vertices[i].x)+", "+(Math.round(reflectedVerticesGeometry.geometry.vertices[i].y) -reflectedVerticesGeometry.geometry.vertices[i].y))
+        }
 
         // geometryRemainders.push(new THREE.ArrowHelper( dir, origin, length, 0xff0000 ));
         geometryRemainders.vertices.push(origin );

@@ -41,18 +41,25 @@
 
   console.log("reflect the z2 grid using a bijective digitized reflection  ...")
 
-  // compare with digital rotation obtained via reflections
-  let reflectedGrid = digitalReflectionOfPoints(geometry_Grid,[-1.0,2.0,0.0,0.0]);
-  scene.add(reflectedGrid);
+  let k = 1.0; // bijective digitized reflection parameters
+  let a = -k;
+  let b = k+1;
+  let reflectedGrid = digitalReflectionOfPoints(geometry_Grid,[a,b,0.0,0.0]);
+  // scene.add(reflectedGrid);
 
-  let setRemaindersVectors = setOfRemainders(reflectedGrid);
+  let setRemaindersVectors = setOfRemainders(reflectedGrid,0xff0000);
   scene.add(setRemaindersVectors);
 
   // have to compute the digitization and the other digitized reflection
   let digitizedreflectedGrid = new THREE.Geometry();
-  digitizedreflectedGrid.vertices = _.cloneDeep(points_i.geometry.vertices);//JSON.parse(JSON.stringify(points_i.geometry.vertices));
-  digitizedreflectedGrid.colors = _.cloneDeep(points_i.geometry.colors);
+  digitizedreflectedGrid.vertices = _.cloneDeep(reflectedGrid.geometry.vertices);//JSON.parse(JSON.stringify(points_i.geometry.vertices));
+  digitizedreflectedGrid.colors = _.cloneDeep(reflectedGrid.geometry.colors);
   discretizeGeometry(digitizedreflectedGrid);
+
+  let doubleReflectedGrid = digitalReflectionOfPoints(new THREE.Points(digitizedreflectedGrid,geometry_Grid.material),[a,b,0.0,0.0]);
+  scene.add(doubleReflectedGrid);
+  let setRemaindersDoubleReflectedVectors = setOfRemainders(doubleReflectedGrid,0x00ff00);
+  scene.add(setRemaindersDoubleReflectedVectors);
 
 
   /////////////////////////         TIME TO RENDER        ///////////////////////////////
