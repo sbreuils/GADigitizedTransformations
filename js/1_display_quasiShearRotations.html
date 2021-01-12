@@ -47,45 +47,13 @@
 
   let setRemaindersVectors = setOfRemainders(reflectedGrid);
   scene.add(setRemaindersVectors);
-  // let digitalRotat = digitalRotation(geometry_Grid,theta)
-  // let digitalRotatInv = digitalRotation(digitalRotat,-theta)
-  // scene.add(digitalRotatInv );
 
-  /// compute the continuous rotation
-  // let continuousRotation = geometry_Grid.rotateZ(theta);
-  // scene.add(continuousRotation)
+  // have to compute the digitization and the other digitized reflection
+  let digitizedreflectedGrid = new THREE.Geometry();
+  digitizedreflectedGrid.vertices = _.cloneDeep(points_i.geometry.vertices);//JSON.parse(JSON.stringify(points_i.geometry.vertices));
+  digitizedreflectedGrid.colors = _.cloneDeep(points_i.geometry.colors);
+  discretizeGeometry(digitizedreflectedGrid);
 
-  // let averageErrorShear = distanceCriteria(continuousRotation,third_vqs);
-  // console.log("Average error shear=",averageErrorShear);
-  //
-  // let averageErrorReflection = distanceCriteria(continuousRotation,digitalRotationFromReflections1);
-  // console.log("Average error reflection =",averageErrorReflection);
-
-
-  // let averageErrorRotation = distanceCriteria(continuousRotation,digitalRotat);
-  // console.log("Average error digital rotation =",averageErrorRotation);
-
-
-  // // add a circle
-  // scene.add(createCircle());
-  //
-  // // // add the set of bijective angles that make bijective reflections
-  // let resolution = 500;
-  // scene.add(createBijectiveDistributionCompositionOfReflection(resolution));
-  //
-  // // add the axis
-  // scene.add(...createXYAxis(-1.0,1.0));
-
-
-
-  // add a line
-
-
-
-  // scene.add(createPoint(  )
-  // scene.add(createLineFromTwoPoints([XminScene-0.5,XminScene-0.5],[XminScene-0.5,XmaxScene+0.5]))
-  // scene.add(createLineFromTwoPoints([XminScene+0.5,XminScene-0.5],[XminScene+0.5,XmaxScene+0.5]))
-  console.log("inner width ="+window.innerWidth)
 
   /////////////////////////         TIME TO RENDER        ///////////////////////////////
   // add the renderer to put the scene
