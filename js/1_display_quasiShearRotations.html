@@ -25,7 +25,7 @@
   camera.position.z = camZPos;
 
   // add the grid of points
-  let N=7;
+  let N=11;
   let posSquare = 3;
   let geometry_Grid = createGrid(N);
 
@@ -41,11 +41,15 @@
 
   console.log("reflect the z2 grid using a bijective digitized reflection  ...")
 
-  let k = 1.0; // bijective digitized reflection parameters
-  let a = -k;
-  let b = k+1;
+  // let k = 1.0; // bijective digitized reflection parameters
+  // let a = -k;
+  // let b = k+1.0;
+let a = -1.0;
+  let b = 7.0;
+
+
   let reflectedGrid = digitalReflectionOfPoints(geometry_Grid,[a,b,0.0,0.0]);
-  // scene.add(reflectedGrid);
+  scene.add(reflectedGrid);
 
   let setRemaindersVectors = setOfRemainders(reflectedGrid,0xff0000);
   scene.add(setRemaindersVectors);
@@ -55,11 +59,12 @@
   digitizedreflectedGrid.vertices = _.cloneDeep(reflectedGrid.geometry.vertices);//JSON.parse(JSON.stringify(points_i.geometry.vertices));
   digitizedreflectedGrid.colors = _.cloneDeep(reflectedGrid.geometry.colors);
   discretizeGeometry(digitizedreflectedGrid);
+  // scene.add(digitizedreflectedGrid);
 
   let doubleReflectedGrid = digitalReflectionOfPoints(new THREE.Points(digitizedreflectedGrid,geometry_Grid.material),[a,b,0.0,0.0]);
-  scene.add(doubleReflectedGrid);
+  // scene.add(doubleReflectedGrid);
   let setRemaindersDoubleReflectedVectors = setOfRemainders(doubleReflectedGrid,0x00ff00);
-  scene.add(setRemaindersDoubleReflectedVectors);
+  // scene.add(setRemaindersDoubleReflectedVectors);
 
 
   /////////////////////////         TIME TO RENDER        ///////////////////////////////
