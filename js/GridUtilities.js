@@ -1,9 +1,12 @@
+
+import * as THREE from './jslibs/three.module.js';
+
 let forestGreen = new THREE.Color(0x009900);
 let deepBlue = new THREE.Color(0x3774CB);
 let deepRed = new THREE.Color(0x721606);
 let red = new THREE.Color(0xff0000);
 
-var createDigitalPoint = function(x,y,z,color){
+export var createDigitalPoint = function(x,y,z,color){
     // geometry that will contain the vertices and colors
     // the material will contain the thickness of the points
     let geometryPoint = new THREE.Geometry();
@@ -16,7 +19,7 @@ var createDigitalPoint = function(x,y,z,color){
 }
 
 
-var createGrid = function(N){
+export var createGrid = function(N){
     // geometry that will contain the vertices and colors of the digital grid
     // better if N is odd
     let geometryPoint = new THREE.Geometry();
@@ -34,7 +37,7 @@ var createGrid = function(N){
     return new THREE.Points(geometryPoint,materialPoints);
 }
 
-var createCells = function(N,min,max){
+export var createCells = function(N,min,max){
     // geometry that will contain the vertices and colors of the digital grid
     // better if N is odd
     let geometryCells = new THREE.Geometry();
@@ -70,7 +73,7 @@ var createCells = function(N,min,max){
 
 // Rounding operation
 // loop over all the points and round
-function discretizeGeometry(geometryy){
+export function discretizeGeometry(geometryy){
     for (let i = 0; i < geometryy.vertices.length; i++) {
         geometryy.vertices[i].x = Math.round(geometryy.vertices[i].x);
         geometryy.vertices[i].y = Math.round(geometryy.vertices[i].y);
@@ -78,7 +81,7 @@ function discretizeGeometry(geometryy){
     }
 }
 
-var setOfRemainders = function (reflectedVerticesGeometry,specifColor){
+export var setOfRemainders = function (reflectedVerticesGeometry,specifColor){
 
     let geometryRemainders = new THREE.Geometry();
     let materialRemainders = new THREE.LineBasicMaterial({color: specifColor});
