@@ -1,7 +1,7 @@
+import * as THREE from './jslibs/three.module.js';
 
-
-
-var reflectPoint = function (points_i,normalVector) {
+// just to try
+export var reflectPoint = function (points_i,normalVector) {
     // reflect a set of points given by the "geometry" points_i with respect to the normal vector given by normalVector;
     // The normal vector is not necessarily a unit normal vector
 
@@ -27,7 +27,7 @@ var reflectPoint = function (points_i,normalVector) {
     return geometryReflectedPoints;
 }
 
-var digitalReflectionOfPoints = function (points_i,normalVector1) {
+export var digitalReflectionOfPoints = function (points_i,normalVector1) {
     let normNormalVector1 = Math.sqrt(normalVector1[0]*normalVector1[0]+normalVector1[1]*normalVector1[1]+normalVector1[2]*normalVector1[2]+normalVector1[3]*normalVector1[3]);
     let unitNormVector1 = [normalVector1[0]/normNormalVector1,normalVector1[1]/normNormalVector1,normalVector1[2]/normNormalVector1,normalVector1[3]/normNormalVector1];
     let unitDirectionVector1 = [unitNormVector1[1],-unitNormVector1[0],unitNormVector1[2],unitNormVector1[3]]
@@ -49,7 +49,7 @@ var digitalReflectionOfPoints = function (points_i,normalVector1) {
 }
 
 
-var digitalRotationFromReflections = function (points_i,normalVector1,normalVector2) {
+export var digitalRotationFromReflections = function (points_i,normalVector1,normalVector2) {
     // reflect a set of points given by the "geometry" points_i with respect to the normal vector given by normalVector;
     // The normal vector is not necessarily a unit normal vector
 

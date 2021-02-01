@@ -1,5 +1,7 @@
+import * as THREE from './jslibs/three.module.js';
 
 
+// 
 // create the mesh corresponding to a circle centered at origin and
 var createCircle = function(){
     // create the geometry: vertices and faces
@@ -14,7 +16,7 @@ var createCircle = function(){
 }
 
 
-var createPoint = function(x,y,z,color){
+export var createPoint = function(x,y,z,color){
     // geometry that will contain the vertices and colors
     // the material will contain the thickness of the points
     let geometryPoint = new THREE.Geometry();
@@ -33,7 +35,7 @@ var createPoint = function(x,y,z,color){
 
 
 // line defined by a normal vector passing through the origin
-var createLine = function (unitNormalVector,XminScene,XmaxScene) {
+export var createLine = function (unitNormalVector,XminScene,XmaxScene) {
     var points = [];
     points.push( new THREE.Vector3( XminScene, (-unitNormalVector[2]*unitNormalVector[2] - (unitNormalVector[0]*XminScene))/unitNormalVector[1], unitNormalVector[2] ) );
     points.push( new THREE.Vector3( 0.0, 0.0, unitNormalVector[2] ) );
@@ -46,7 +48,7 @@ var createLine = function (unitNormalVector,XminScene,XmaxScene) {
 }
 
 // line defined from
-var createLineFromTwoPoints = function (pt1,pt2) {
+export var createLineFromTwoPoints = function (pt1,pt2) {
     let geometryLine = new THREE.Geometry();
     geometryLine.vertices.push(new THREE.Vector3( pt1[0], pt1[1], 0));
     geometryLine.vertices.push(new THREE.Vector3( pt2[0], pt2[1], 0));
@@ -58,7 +60,7 @@ var createLineFromTwoPoints = function (pt1,pt2) {
 
 
 // define the axis of the scene with two lines
-var createXYAxis = function (XminScene,XmaxScene) {
+export var createXYAxis = function (XminScene,XmaxScene) {
 
     let unitNormalVector=[0.0,1.0,0.0];
     var points = [];
