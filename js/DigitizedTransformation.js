@@ -154,7 +154,10 @@ let shearPoints_vqs = function (points_i,theta, omega) {
 export var digitalRotationFromShear = function (points_i,alph) {
     // compute the digitized rotation from the quasi shear algorithm
 
-    
+    let first_hqs = shearPoints_hqs(geometry_Grid,theta,omega);
+    let second_vqs = shearPoints_vqs(first_hqs,theta,omega);//first_hqs
+    let third_vqs = shearPoints_hqs(second_vqs,theta,omega);
+  
 
-    return new THREE.Points(geometryReflectedPoints2,points_i.material);
+    return third_vqs;
 }
