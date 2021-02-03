@@ -103,9 +103,37 @@ export var digitalRotationFromReflections = function (points_i,normalVector1,nor
 
 
 
-export var digitalRotationFromShear = function (points_i,normalVector1,normalVector2) {
-    // reflect a set of points given by the "geometry" points_i with respect to the normal vector given by normalVector;
-    // The normal vector is not necessarily a unit normal vector
+let shearPoints_chs = function (points_i,theta) {
+    // apply a digital shear transformation to a set of points given inside the geometry of points_i
+
+    let ap = Math.floor(omega*Math.cos(theta));
+    let bp = Math.floor(omega*Math.sin(theta));
+    let cp = Math.floor(bp/2.0);
+    digitalLine = [-ap,bp,cp];
+
+
+    let a = digitalLine[0];
+    let b = digitalLine[1];
+    let c = digitalLine[2];
+
+
+    let geometryReflectedPoints = new THREE.Geometry();
+    geometryReflectedPoints.vertices = _.cloneDeep(points_i.geometry.vertices);//JSON.parse(JSON.stringify(points_i.geometry.vertices));
+    console.log(points_i.geometry.colors)
+    geometryReflectedPoints.colors = _.cloneDeep(points_i.geometry.colors);
+    console.log(geometryReflectedPoints.colors)
+
+    for(let i=0;i<geometryReflectedPoints.vertices.length;i++){
+        let shearCoefficient = ((a*(geometryReflectedPoints.vertices[i].y)+c)/b);
+        geometryReflectedPoints.vertices[i].x = geometryReflectedPoints.vertices[i].x + shearCoefficient;
+    }
+
+    return new THREE.Points(geometryReflectedPoints,points_i.material);
+}
+
+export var digitalRotationFromShear = function (points_i,alph) {
+    // compute the digitized rotation from the quasi shear algorithm
+
 
     let normNormalVector1 = Math.sqrt(normalVector1[0]*normalVector1[0]+normalVector1[1]*normalVector1[1]+normalVector1[2]*normalVector1[2]+normalVector1[3]*normalVector1[3]);
     let unitNormVector1 = [normalVector1[0]/normNormalVector1,normalVector1[1]/normNormalVector1,normalVector1[2]/normNormalVector1,normalVector1[3]/normNormalVector1];
