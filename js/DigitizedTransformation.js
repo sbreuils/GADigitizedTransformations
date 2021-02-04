@@ -104,7 +104,11 @@ export var digitalRotationFromReflections = function (points_i,normalVector1,nor
 
 
 
-export let 
+// export var remainderMap = function (points_i,normalVector1) {
+//     // compute the set of remainder map
+//     // for a given point p and its neighbors p+e1,p-e1,p+e2,p-e2, we compute the set of frames that 
+    
+// }
 
 
 
