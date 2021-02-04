@@ -103,6 +103,14 @@ export var digitalRotationFromReflections = function (points_i,normalVector1,nor
 
 
 
+
+export let 
+
+
+
+
+
+
 let shearPoints_chs = function (points_i,theta) {
     // apply a digital shear transformation to a set of points given inside the geometry of points_i
 
