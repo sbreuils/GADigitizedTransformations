@@ -152,7 +152,7 @@ export var setOfRemaindersRestreined = function (reflectedVerticesGeometry,speci
             // let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x, reflectedVerticesGeometry.geometry.vertices[i].y, 0 );
             // let origin = new THREE.Vector3( Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
             
-            console.log("vector remainder = (", dir.x-O.x,", ", dir.y-O.y,")");
+            // console.log("vector remainder = (", dir.x-O.x,", ", dir.y-O.y,")");
             
             // geometryRemainders.vertices.push(origin );
             // geometryRemainders.vertices.push(dir );
