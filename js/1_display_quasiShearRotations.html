@@ -24,6 +24,8 @@ import * as ENTITIES from '/DigitizedGeometryCreation.js';
   var camZPos = 8; // 24
   camera.position.z = camZPos;
 
+  console.log("init the scene ...")
+
   // add the grid of points
   let N=11;
   let posSquare = 3;
@@ -44,8 +46,8 @@ import * as ENTITIES from '/DigitizedGeometryCreation.js';
   // let k = 1.0; // bijective digitized reflection parameters
   // let a = -k;
   // let b = k+1.0;
-  let a = -2.0;
-  let b = 7.0;
+  let a = -1.0;
+  let b = 4.0;
 
 
   let reflectedGrid = TRANSFO.digitalReflectionOfPoints(geometry_Grid,[a,b,0.0,0.0]);
@@ -53,6 +55,14 @@ import * as ENTITIES from '/DigitizedGeometryCreation.js';
 
   let setRemaindersVectors = DG.setOfRemainders(reflectedGrid,0xff0000);
   scene.add(setRemaindersVectors);
+
+
+  // this is to check bijectivity for lower set of points
+  let setRemaindersVectorsTrimed = DG.setOfRemaindersRestreined(reflectedGrid,0x0fff00,a,b,N);
+  scene.add(setRemaindersVectorsTrimed);
+  
+
+
 
   // // have to compute the digitization and the other digitized reflection
   // let digitizedreflectedGrid = new THREE.Geometry();
