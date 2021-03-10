@@ -1,0 +1,31 @@
+name: build on linux
+
+on: 
+  push:
+    paths-ignore:
+      - 'geogebra/**'
+      - 'js/**'
+      - '.gitignore'
+      - 'README.md'
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    container:
+      image: sbreuils/visu-linear-algebra:latest # contains dependencies for opencv, eigen and ceres
+      
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Create build dir
+      run: mkdir build
+    - name: Run cmake
+      working-directory: build
+      run: cmake ..
+    - name: Run make
+      working-directory: build
+      run: make
