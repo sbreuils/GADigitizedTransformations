@@ -29,16 +29,18 @@ bool isBijectiveDigitizedReflectionAnInvolution(Z2Grid grid, int kmax){
 bool isDigitizedReflectionBijective(Z2Grid grid, kln::point normalVector){
     bool isInvolution = true;
     int numberOfDifferentPoints=0;
-        for (auto pt1 : grid) {
-            kln::point pt1_reflected = digitizedRef(normalVector);
+    GADigitizedReflection digitizedRef(normalVector);
 
-            kln::point pt1_reflected_twice = digitizedRef(pt1_reflected);
+    for (auto pt1 : grid) {
+        kln::point pt1_reflected = digitizedRef(normalVector);
 
-            if (pt1_reflected_twice.x() != pt1.x() || pt1_reflected_twice.y() != pt1.y()) {
-                numberOfDifferentPoints++;
-                isInvolution = false;
-            }
+        kln::point pt1_reflected_twice = digitizedRef(pt1_reflected);
+
+        if (pt1_reflected_twice.x() != pt1.x() || pt1_reflected_twice.y() != pt1.y()) {
+            numberOfDifferentPoints++;
+            isInvolution = false;
         }
+    }
 
 
     return isInvolution;
