@@ -26,24 +26,23 @@ bool isBijectiveDigitizedReflectionAnInvolution(Z2Grid grid, int kmax){
 }
 
 
-bool isDigitizedReflectionBijective(Z2Grid grid, kln::point normalVector){
-    bool isInvolution = true;
+bool isDigitizedReflectionBijective(Z3Grid grid, kln::point normalVector){
+    bool isBijective = true;
     int numberOfDifferentPoints=0;
     GADigitizedReflection digitizedRef(normalVector);
 
+    std::cout << "number of grid points that are tested =" << grid.size() << std::endl;
+    
     for (auto pt1 : grid) {
-        kln::point pt1_reflected = digitizedRef(normalVector);
-
+        kln::point pt1_reflected = digitizedRef(pt1);
         kln::point pt1_reflected_twice = digitizedRef(pt1_reflected);
 
-        if (pt1_reflected_twice.x() != pt1.x() || pt1_reflected_twice.y() != pt1.y()) {
+        if (pt1_reflected_twice.x() != pt1.x() || pt1_reflected_twice.y() != pt1.y() || pt1_reflected_twice.z() != pt1.z()) { // components are integers
             numberOfDifferentPoints++;
-            isInvolution = false;
+            isBijective = false;
         }
     }
-
-
-    return isInvolution;
+    return isBijective;
 }
 
 

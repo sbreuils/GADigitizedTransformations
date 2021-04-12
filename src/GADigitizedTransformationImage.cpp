@@ -5,7 +5,7 @@ void digitizedRotationImage(const std::vector<GATriplet>& pixels, std::vector<GA
 
     GAPixelTransformation* gaPixelTransfo = new GADigitizedRotationCreator(angle);
 
-    // could use std::transform instead
+    // \todo use std::transform instead
     for(const auto & pixel : pixels){
         transformedpixels.push_back((*gaPixelTransfo)(pixel));
     }
