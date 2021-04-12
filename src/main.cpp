@@ -6,8 +6,13 @@
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
 
-#include <opencv2/viz.hpp>
-#include <opencv2/viz/widgets.hpp>
+#define DISTRIBUTION 0
+
+#if DISTRIBUTION
+    #include <opencv2/viz.hpp>
+    #include <opencv2/viz/widgets.hpp>
+#endif
+
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
 {
@@ -57,8 +62,11 @@ int main(int argc, char * argv[]){
         // std::cout << "test involution of bijective digitized reflections ..." << std::endl;
         // bool isInvolution = isBijectiveDigitizedReflectionAnInvolution(gaZ2Grid,100);
 
+#if DISTRIBUTION
         cv::viz::Viz3d bijectiveDigitizedReflections_distribution("distribution");
         bijectiveDigitizedReflections_distribution.spin();
+#endif
+
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
         createZ3Grid(gaZ3Grid, 50, 50, 50); // \todo adapt the size of the grid
