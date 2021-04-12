@@ -6,8 +6,8 @@
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
 
-#include <opencv2/viz/widgets.hpp>
 #include <opencv2/viz.hpp>
+#include <opencv2/viz/widgets.hpp>
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
 {
