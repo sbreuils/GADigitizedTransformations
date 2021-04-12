@@ -43,7 +43,7 @@ int main(){
 #if GRID
     std::cout << "load Z2 grid as a grid of GA points ..." << std::endl;
     Z2Grid gaZ2Grid;
-    createZ2Grid(gaZ2Grid, 1000, 1000);
+    createZ2Grid(gaZ2Grid, 100, 100);
 
 
     std::cout << "test involution of bijective digitized reflections ..." << std::endl;
