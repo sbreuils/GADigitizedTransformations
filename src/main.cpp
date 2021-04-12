@@ -1,14 +1,13 @@
 
 #include <iostream>
 #include <algorithm>
-
 #include <vector>
 
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
 
-#define IMAGE 0
-#define GRID 1
+#include <opencv2/viz/widgets.hpp>
+#include <opencv2/viz.hpp>
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
 {
@@ -58,14 +57,15 @@ int main(int argc, char * argv[]){
         // std::cout << "test involution of bijective digitized reflections ..." << std::endl;
         // bool isInvolution = isBijectiveDigitizedReflectionAnInvolution(gaZ2Grid,100);
 
-
+        cv::viz::Viz3d bijectiveDigitizedReflections_distribution("distribution");
+        bijectiveDigitizedReflections_distribution.spin();
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
         createZ3Grid(gaZ3Grid, 50, 50, 50); // \todo adapt the size of the grid
 
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
-        kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 1.0);
+        kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
         bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, normalVectorReflectionLine);
 
         (isBijective) ? std::cout << "digizited reflection is bijective" << std::endl : std::cout << "digizited reflection is NOT bijective" << std::endl;
