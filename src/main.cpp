@@ -73,10 +73,15 @@ int main(int argc, char * argv[]){
 
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
-        kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
-        bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, normalVectorReflectionLine);
+        // kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
+        kln::plane reflectionPlane = kln::plane(3.0, 4.0, 1.0, 0.0);
+        bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, reflectionPlane);
 
         (isBijective) ? std::cout << "digizited reflection is bijective" << std::endl : std::cout << "digizited reflection is NOT bijective" << std::endl;
+
+
+
+
     }
 
 	return 0;

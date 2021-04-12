@@ -10,7 +10,7 @@ bool isBijectiveDigitizedReflectionAnInvolution(Z2Grid grid, int kmax){
     bool isInvolution = true;
     int numberOfDifferentPoints=0;
     for(int k = 0 ; k< kmax ; ++k) {
-        GADigitizedReflection digitizedRef(-(k+1), k,0);
+        GADigitizedReflectionNormalVector digitizedRef(-(k+1), k,0);
 
         for (auto pt1 : grid) {
             kln::point pt1_reflected = digitizedRef(pt1);
@@ -27,10 +27,10 @@ bool isBijectiveDigitizedReflectionAnInvolution(Z2Grid grid, int kmax){
 }
 
 
-bool isDigitizedReflectionBijective(Z3Grid grid, kln::point normalVector){
+bool isDigitizedReflectionBijective(const Z3Grid& grid, const kln::plane& reflectionPlane){
     bool isBijective = true;
     int numberOfDifferentPoints=0;
-    GADigitizedReflection digitizedRef(normalVector);
+    GADigitizedReflection digitizedRef(reflectionPlane);
 
     std::cout << "number of grid points that are tested =" << grid.size() << std::endl;
 
@@ -46,6 +46,30 @@ bool isDigitizedReflectionBijective(Z3Grid grid, kln::point normalVector){
     return isBijective;
 }
 
+
+bool isDigitizedReflectionBijective_withLineCondition(Z3Grid grid, kln::plane reflectionPlane){
+    bool isBijective = true;
+    int numberOfDifferentPoints=0;
+    GADigitizedReflection digitizedRef(reflectionPlane);
+
+    std::cout << "number of grid points that are tested =" << grid.size() << std::endl;
+
+    kln::point ptOriginCell1 = kln::point( -0.5, -0.5 ,0.5);
+    kln::point ptOriginCell2 = kln::point( -0.5, 0.5 ,0.5);
+    kln::point ptOriginCell3 = kln::point( 0.5, 0.5 ,0.5);
+
+
+    for (auto pt1 : grid) {
+        kln::point pt1_reflected = digitizedRef(pt1);
+        kln::point pt1_reflected_twice = digitizedRef(pt1_reflected);
+
+        if (pt1_reflected_twice.x() != pt1.x() || pt1_reflected_twice.y() != pt1.y() || pt1_reflected_twice.z() != pt1.z() ) { // components are integers
+            numberOfDifferentPoints++;
+            isBijective = false;
+        }
+    }
+    return isBijective;
+}
 
 
 
