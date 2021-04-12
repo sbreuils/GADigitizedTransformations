@@ -71,17 +71,12 @@ int main(int argc, char * argv[]){
         Z3Grid gaZ3Grid;
         createZ3Grid(gaZ3Grid, 50, 50, 50); // \todo adapt the size of the grid
 
-
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
         // kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
-        kln::plane reflectionPlane = kln::plane(3.0, 4.0, 1.0, 0.0);
+        kln::plane reflectionPlane = kln::plane(sqrt(2.0), 5.0, 7.0, 0.0);
         bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, reflectionPlane);
 
         (isBijective) ? std::cout << "digizited reflection is bijective" << std::endl : std::cout << "digizited reflection is NOT bijective" << std::endl;
-
-
-
-
     }
 
 	return 0;
