@@ -46,12 +46,20 @@ class GADigitizedReflection : public GADigitizedTransformation
 public:
 
     // digitized reflection init with normal vector coordinates
-    GADigitizedReflection (const double& x, const double& y)
+    GADigitizedReflection (const double& x, const double& y, const double& z)
     {
         _m[e3ga::E1] = x;
         _m[e3ga::E2] = y;
+        _m[e3ga::E3] = z;
     }
 
+    // digitized reflection init with normal vector coordinates
+    GADigitizedReflection (const kln::point & mKlein)
+    {
+        _m[e3ga::E1] = mKlein.x();
+        _m[e3ga::E2] = mKlein.y();
+        _m[e3ga::E3] = mKlein.z();
+    }
 
     inline
     kln::point operator()( const kln::point & p ) const override

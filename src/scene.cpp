@@ -30,16 +30,15 @@ void loadSceneFromImage(std::string imagePath, std::vector<GATriplet>& pixels, i
 
 
     height = imageResiz.rows;
-     width =  imageResiz.cols;
+    width =  imageResiz.cols;
 
      // let us convert pixel into the triplet kln points and gray level
      // we center
     for(int i=0; i<imageResiz.rows; i++)
         for(int j=0; j<imageResiz.cols; j++){
-//            pixels.at<uchar>(i,j) = 0;
             GATriplet currentPix = {kln::point(j-((int)imageResiz.cols/2),i-((int)imageResiz.rows/2),0.0),imageResiz.at<uchar>(i,j)};
             pixels.push_back(currentPix);
-            }
+        }
 }
 
 
