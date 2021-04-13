@@ -6,12 +6,14 @@
 
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
+#include "ExternalFilesUtilities.h"
 
 #define DISTRIBUTION 0
 
 #if DISTRIBUTION
     #include <opencv2/viz.hpp>
     #include <opencv2/viz/widgets.hpp>
+    #include <opencv2/core/mat.hpp> // for displaying cloud of points
 #endif
 
 
@@ -31,6 +33,9 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option)
 }
 
 int main(int argc, char * argv[]){
+
+    // add the file containing bijective digitized reflections in the space
+    std::string dataBijectiveDigitizedTransformation;
 
     if(cmdOptionExists(argv, argv+argc, "-i"))
     {
@@ -63,10 +68,7 @@ int main(int argc, char * argv[]){
         // std::cout << "test involution of bijective digitized reflections ..." << std::endl;
         // bool isInvolution = isBijectiveDigitizedReflectionAnInvolution(gaZ2Grid,100);
 
-#if DISTRIBUTION
-        cv::viz::Viz3d bijectiveDigitizedReflections_distribution("distribution");
-        bijectiveDigitizedReflections_distribution.spin();
-#endif
+
 
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
@@ -78,7 +80,7 @@ int main(int argc, char * argv[]){
 
         // Generate digital reflections through definitions of planes in a domain
         // std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
-        const int lenDomain = 500;
+        const int lenDomain = 20;
         TransformationDomain digitizedReflectionDomain = std::make_tuple(0.0,pi/4.0, 0.0, pi/4.0); 
         GAPlanesGeneration gaPlanesGenerator;
         std::vector<kln::plane> gaPlanes = gaPlanesGenerator(lenDomain,digitizedReflectionDomain);
@@ -95,15 +97,53 @@ int main(int argc, char * argv[]){
 
         std::vector<kln::plane> setBijectiveDigitizedReflections = setOfBijectiveReflectionsFromSetOfPlanes(gaZ3Grid, gaPlanes);
 
-        // write in file
+        // display
         for(auto gaBijectivePlane : setBijectiveDigitizedReflections){
             std::cout << "digizited reflection associated to plane ("<< gaBijectivePlane.x() 
                                                                             <<","<< gaBijectivePlane.y() 
                                                                             <<","<< gaBijectivePlane.z() <<",0) is bijective" << std::endl;
         }
 
+        // write in file
+        writeFile(bijectivePlanesToString(setBijectiveDigitizedReflections), "../listBijectiveDigitizedReflections/bijectiveDigitizedReflectionsSpace.txt");
+
         
 
+
+#if DISTRIBUTION
+        cv::viz::Viz3d bijectiveDigitizedReflections_distribution("distribution");
+        bijectiveDigitizedReflections_distribution.setBackgroundColor(cv::viz::Color::white());
+    
+        cv::Point3d Orig(0.0, 0.0, 0.0);
+        cv::viz::WSphere sphere(Orig, 1.0, 20, cv::viz::Color::blue());
+        sphere.setRenderingProperty(cv::viz::LINE_WIDTH, 4.0);
+
+
+
+        // display point cloud
+        std::vector<cv::Point3f> pointVec; 
+	    std::vector<cv::Vec3b> colorVec;   
+
+        for(auto plane : setBijectiveDigitizedReflections){
+            pointVec.push_back(cv::Point3f(plane.x(), plane.y(), plane.z()));
+    	    colorVec.push_back(cv::Vec3b(0, 2, 128));
+        }
+    
+        // bijectiveDigitizedReflections_distribution.showWidget("Axis widget", cv::viz::WCoordinateSystem());
+        // bijectiveDigitizedReflections_distribution.showWidget("sphere widget", sphere);
+
+    	cv::viz::WCloud cloud_widget(pointVec, colorVec);
+        cloud_widget.setRenderingProperty(cv::viz::POINT_SIZE,5.0);
+
+        bijectiveDigitizedReflections_distribution.showWidget("cloud", cloud_widget);
+
+
+        while(!bijectiveDigitizedReflections_distribution.wasStopped()) {
+            bijectiveDigitizedReflections_distribution.spinOnce(1, true);
+        }
+
+
+#endif
 
     }
 
