@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <tuple>
 #include <vector>
 
 #include "GADigitizedTransformationImage.h"
@@ -77,7 +78,11 @@ int main(int argc, char * argv[]){
 
 
         // Generate digital reflections through definitions of planes in a domain
-        std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
+        // std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
+        const int lenDomain = 10;
+        TransformationDomain digitizedReflectionDomain = std::make_tuple(0.0,pi/4.0, 0.0, pi/4.0); 
+        GAPlanesGeneration gaPlanesGenerator;
+        std::vector<kln::plane> gaPlanes = gaPlanesGenerator(lenDomain,digitizedReflectionDomain);
 
         // Not bijective
         // kln::plane reflectionPlane = kln::plane(sqrt(2.0), 5.0, 7.0, 0.0);
