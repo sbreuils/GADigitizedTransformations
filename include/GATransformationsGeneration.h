@@ -1,5 +1,6 @@
 
 #pragma once
+#include <iostream>
 
 
 #include <klein/klein.hpp>
@@ -34,13 +35,15 @@ public:
 
 
         for(int u= 0 ; u<N ; ++u ){
-            for(int v=0 ; v<N ; ++v){
+            for(int v=1 ; v<N ; ++v){
                 float phi = std::get<0>(angleRegion) + (std::get<1>(angleRegion) - std::get<0>(angleRegion)) * v/(N-1); //(pi/4.0) * v/(N-1); // latitude
                 float theta = std::get<2>(angleRegion) + (2*std::get<3>(angleRegion) - std::get<2>(angleRegion)) * u/(N-1); //(pi/2.0) * u/(N-1); // longitude
  
                 float x = cos(theta)*sin(phi);
                 float y = sin(theta)*sin(phi);
                 float z = cos(phi);
+
+                // std::cout << "Plane : x="<<x<<", y="<<y<<", z="<<z<<std::endl;
 
                 planesVector.push_back(kln::plane(x,y,z,0.0f));
 

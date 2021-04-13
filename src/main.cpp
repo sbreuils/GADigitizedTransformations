@@ -6,7 +6,6 @@
 
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
-#include "GATransformationsGeneration.h"
 
 #define DISTRIBUTION 0
 
@@ -79,7 +78,7 @@ int main(int argc, char * argv[]){
 
         // Generate digital reflections through definitions of planes in a domain
         // std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
-        const int lenDomain = 10;
+        const int lenDomain = 500;
         TransformationDomain digitizedReflectionDomain = std::make_tuple(0.0,pi/4.0, 0.0, pi/4.0); 
         GAPlanesGeneration gaPlanesGenerator;
         std::vector<kln::plane> gaPlanes = gaPlanesGenerator(lenDomain,digitizedReflectionDomain);
@@ -87,17 +86,25 @@ int main(int argc, char * argv[]){
         // Not bijective
         // kln::plane reflectionPlane = kln::plane(sqrt(2.0), 5.0, 7.0, 0.0);
 
+        // numerically characterize bijective digitized reflections
+
+
         // bijective 
         // kln::plane reflectionPlane = kln::plane(-3.0, 4.0, 7.0, 0.0);
-        bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, gaPlanes[0]);
+        // bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, gaPlanes[0]);
 
-        (isBijective) ? std::cout << "digizited reflection associated to plane ("<< gaPlanes[0].x() 
-                                                                            <<","<< gaPlanes[0].y() 
-                                                                            <<","<< gaPlanes[0].z() <<",0) is bijective" << std::endl 
-                                                                            : 
-                        std::cout << "digizited reflection associated to plane ("<< gaPlanes[0].x() 
-                                                                            <<","<< gaPlanes[0].y() 
-                                                                            <<","<< gaPlanes[0].z() <<",0) is NOT bijective" << std::endl;
+        std::vector<kln::plane> setBijectiveDigitizedReflections = setOfBijectiveReflectionsFromSetOfPlanes(gaZ3Grid, gaPlanes);
+
+        // write in file
+        for(auto gaBijectivePlane : setBijectiveDigitizedReflections){
+            std::cout << "digizited reflection associated to plane ("<< gaBijectivePlane.x() 
+                                                                            <<","<< gaBijectivePlane.y() 
+                                                                            <<","<< gaBijectivePlane.z() <<",0) is bijective" << std::endl;
+        }
+
+        
+
+
     }
 
 	return 0;
