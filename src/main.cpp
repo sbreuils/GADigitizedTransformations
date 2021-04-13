@@ -5,6 +5,7 @@
 
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
+#include "GATransformationsGeneration.h"
 
 #define DISTRIBUTION 0
 
@@ -73,21 +74,25 @@ int main(int argc, char * argv[]){
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
         // kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
-        
+
+
+        // Generate digital reflections through definitions of planes in a domain
+        std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
+
         // Not bijective
         // kln::plane reflectionPlane = kln::plane(sqrt(2.0), 5.0, 7.0, 0.0);
 
         // bijective 
-        kln::plane reflectionPlane = kln::plane(-3.0, 4.0, 7.0, 0.0);
-        bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, reflectionPlane);
+        // kln::plane reflectionPlane = kln::plane(-3.0, 4.0, 7.0, 0.0);
+        bool isBijective = isDigitizedReflectionBijective(gaZ3Grid, gaPlanes[0]);
 
-        (isBijective) ? std::cout << "digizited reflection associated to plane ("<< reflectionPlane.x() 
-                                                                            <<","<< reflectionPlane.y() 
-                                                                            <<","<< reflectionPlane.z() <<",0) is bijective" << std::endl 
+        (isBijective) ? std::cout << "digizited reflection associated to plane ("<< gaPlanes[0].x() 
+                                                                            <<","<< gaPlanes[0].y() 
+                                                                            <<","<< gaPlanes[0].z() <<",0) is bijective" << std::endl 
                                                                             : 
-                        std::cout << "digizited reflection associated to plane ("<< reflectionPlane.x() 
-                                                                            <<","<< reflectionPlane.y() 
-                                                                            <<","<< reflectionPlane.z() <<",0) is NOT bijective" << std::endl;
+                        std::cout << "digizited reflection associated to plane ("<< gaPlanes[0].x() 
+                                                                            <<","<< gaPlanes[0].y() 
+                                                                            <<","<< gaPlanes[0].z() <<",0) is NOT bijective" << std::endl;
     }
 
 	return 0;
