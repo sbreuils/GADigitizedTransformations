@@ -45,7 +45,8 @@ public:
 
                 // std::cout << "Plane : x="<<x<<", y="<<y<<", z="<<z<<std::endl;
 
-                planesVector.push_back(kln::plane(x,y,z,0.0f));
+                if((x+y)<=z)
+                    planesVector.push_back(kln::plane(x,y,z,0.0f));
 
             }
         }

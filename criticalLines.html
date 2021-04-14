@@ -1,0 +1,130 @@
+<HEAD>
+    <SCRIPT SRC="https://unpkg.com/ganja.js"></SCRIPT>
+  </HEAD>
+  
+  
+  <BODY><SCRIPT>
+
+
+Algebra(2,0,1,()=>{
+
+// Construct a line from its homogeneous form ax + by + c = 0;
+var line = (a,b,c) => a*(1e1) + b*(1e2) + c*(1e0);
+var point2d = (x,y)=> !(1e0 + (x)*(1e1) + (y)*1e2);
+
+// Construct an array of points. (we start as a double (2D) array, and
+// flatten it into a single array of points when done)
+var points = Array(11).fill(0).map((x,i) => 
+               Array(11).fill(0).map((x,j) => 
+                 !(1e0 + (i-5)*(1e1) + (j-5)*1e2) 
+             )).flat();
+
+
+var k = 2;// bijective coefficient
+
+var sqrt = x=>(1+x).Normalized;
+
+// Create an arrow
+var arrow = ( w, from_point, to_point, aspect=0.8 )=>{
+  from_point = from_point/(from_point | !-1e0); to_point = to_point/(to_point | !-1e0);
+  var line = ( to_point & from_point ), l = line.Length;
+  var shape = [[-w,w],[l-5*w,w],[l-5*w,aspect*5*w],[l+w,0]].map(([x,y])=>point2d(x,y));
+  return sqrt(from_point/!1e0) 
+         * sqrt( (((to_point) - from_point) & !1e0).Normalized/(!1e1 & !1e0)    ) 
+         >>> [...shape,...1e2>>>shape.reverse()];
+}
+
+
+// compute the reflection line
+// var reflectionLine = line(-k,k+1,0).Normalized;
+var centeredReflectionLine = (pt) => (!(1e0)) & pt; //line(-k,k+1,0).Normalized;
+
+// reflected points, also a 1D array of points.
+// var reflectedPoints =  -reflectionLine*points*reflectionLine;
+
+var reflect = (reflectionLine,pt) => -reflectionLine*pt*reflectionLine;
+
+// Create the graph.
+var svg = this.graph(() => {
+
+var pointReflection = point2d(2,3);
+// compute the reflection line
+var li = centeredReflectionLine(pointReflection).Normalized;
+
+
+// vertical critical lines 
+var verticalLine1pointBeg = point2d(0.5+(-reflect(li,point2d(1.0,0.0)).e02),-0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine1pointEnd = point2d(0.5+(-reflect(li,point2d(1.0,0.0)).e02), 0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine2pointBeg = point2d(-0.5-(-reflect(li,point2d(1.0,0.0)).e02),-0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine2pointEnd = point2d(-0.5-(-reflect(li,point2d(1.0,0.0)).e02), 0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+
+var verticalLine3pointBeg = point2d(0.5+(-reflect(li,point2d(1.0,0.0)).e01),-0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine3pointEnd = point2d(0.5+(-reflect(li,point2d(1.0,0.0)).e01), 0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine4pointBeg = point2d(-0.5-(-reflect(li,point2d(1.0,0.0)).e01),-0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine4pointEnd = point2d(-0.5-(-reflect(li,point2d(1.0,0.0)).e01), 0.5)  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+
+
+
+
+// horizontal critical lines 
+var verticalLine5pointBeg = point2d(-0.5,0.5-(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine5pointEnd = point2d(0.5,0.5-(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine6pointBeg = point2d(-0.5,-0.5+(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine6pointEnd = point2d(0.5, -0.5+(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+
+var verticalLine7pointBeg = point2d(-0.5,0.5+(-reflect(li,point2d(0.0,1.0)).e01))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine7pointEnd = point2d(0.5,0.5+(-reflect(li,point2d(0.0,1.0)).e01))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine8pointBeg = point2d(-0.5,-0.5-(-reflect(li,point2d(0.0,1.0)).e01))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine8pointEnd = point2d(0.5,-0.5-(-reflect(li,point2d(0.0,1.0)).e01))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+
+
+
+
+// horizontal critical lines , N8
+var verticalLine9pointBeg = point2d(-0.5,0.5-(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine9pointEnd = point2d(0.5,0.5-(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine10pointBeg = point2d(-0.5,-0.5+(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+var verticalLine10pointEnd = point2d(0.5, -0.5+(-reflect(li,point2d(0.0,1.0)).e02))  ;//point2d(0.5-reflect(centeredReflectionLine,point2d(1.0,0.0).e1),-0.5)
+
+
+// console.log("1st vertical point beg = ",verticalLine1pointBeg)
+// console.log("1st vertical point end = ",verticalLine1pointEnd)
+
+// horizontal critical lines 
+
+
+
+return [
+  // 0x000000, ...points,                    // include the original points.
+  
+  0x000000, pointReflection,
+//    0x0000ff, li,           // include the reflection li¥ne.
+   0xff0000, [point2d(-0.5,-0.5),point2d(-0.5,0.5)],
+   0xff0000, [point2d(-0.5,0.5),point2d(0.5,0.5)],
+   0xff0000, [point2d(0.5,0.5),point2d(0.5,-0.5)],
+   0xff0000, [point2d(0.5,-0.5),point2d(-0.5,-0.5)],// C1(0)
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine1pointBeg,verticalLine1pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine2pointBeg,verticalLine2pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine3pointBeg,verticalLine3pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine4pointBeg,verticalLine4pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine5pointBeg,verticalLine5pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine6pointBeg,verticalLine6pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine7pointBeg,verticalLine7pointEnd], '</G>',
+   0x0000ff, '<G stroke-dasharray="0.12,0.02">', [verticalLine8pointBeg,verticalLine8pointEnd], '</G>',
+   arrow(0.05,points[0],points[1]+0.0001e02)
+]},
+  {
+//   grid        : true,
+   pointRadius : 1.0,
+   lineWidth : 3,
+   scale       : 1.8,   // scaling1.8
+   animate     :true
+})
+
+svg.style.background = '#FFFFFF';
+
+document.body.appendChild(svg);
+
+})
+
+</SCRIPT></BODY>

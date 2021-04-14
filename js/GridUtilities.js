@@ -18,6 +18,44 @@ export var createDigitalPoint = function(x,y,z,color){
     return new THREE.Points(geometryPoint,materialPoints);
 }
 
+// define the axis of the scene with two lines
+export var createXYAxis = function (XminScene,XmaxScene) {
+
+    let unitNormalVector=[0.0,1.0,0.0];
+    var points = [];
+    points.push( new THREE.Vector3( XminScene, (-unitNormalVector[2]*unitNormalVector[2] - (unitNormalVector[0]*XminScene))/unitNormalVector[1], unitNormalVector[2] ) );
+    points.push( new THREE.Vector3( 0.0, 0.0, unitNormalVector[2] ) );
+    points.push( new THREE.Vector3( XmaxScene, (-unitNormalVector[2]*unitNormalVector[2] - (unitNormalVector[0]*XmaxScene))/unitNormalVector[1], unitNormalVector[2] ) );
+
+    var pointsY = [];
+    pointsY.push( new THREE.Vector3( 0.0, -1.0, unitNormalVector[2] ) );
+    pointsY.push( new THREE.Vector3( 0.0, 0.0, unitNormalVector[2] ) );
+    pointsY.push( new THREE.Vector3( 0.0, 1.0, unitNormalVector[2] ) );
+
+
+    var geometryLineXaxis = new THREE.BufferGeometry().setFromPoints( points );
+    var geometryLineYaxis = new THREE.BufferGeometry().setFromPoints( pointsY );
+    var materialLine = new THREE.LineBasicMaterial({color: 0xff00ff});
+
+    return [new THREE.Line( geometryLineXaxis, materialLine ),new THREE.Line( geometryLineYaxis, materialLine )]
+}
+
+
+// create the mesh corresponding to a circle centered at origin and
+export var createCircle = function(){
+    // create the geometry: vertices and faces
+    let geometryCircle = new THREE.RingGeometry(0.988,1.012,10000); // store the vertices and faces of the circle (ring with same inner and outer radius) ,
+    // the third argument is the number of segments of the curves (kind of resolution of the circle)
+
+    // create the corresponding material
+    let materialCircle = new THREE.MeshBasicMaterial({color: deepBlue, side: THREE.DoubleSide});
+
+    // create the mesh from the vertices,faces and material
+    return new THREE.Mesh(geometryCircle,materialCircle);
+}
+
+
+
 
 export var createGrid = function(N){
     // geometry that will contain the vertices and colors of the digital grid
@@ -99,19 +137,25 @@ export var setOfRemainders = function (reflectedVerticesGeometry,specifColor){
 
     let setOfVectors=[];
 
-    for (let i = 0; i < reflectedVerticesGeometry.geometry.vertices.length ; i++) {
-        // let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x- Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), reflectedVerticesGeometry.geometry.vertices[i].y- Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
-        let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x, reflectedVerticesGeometry.geometry.vertices[i].y, 0 );
+    let O = new THREE.Vector3(0.0,0.0,0.0);
 
-        let origin = new THREE.Vector3( Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
+
+    for (let i = 0; i < reflectedVerticesGeometry.geometry.vertices.length ; i++) {
+        let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x- Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), reflectedVerticesGeometry.geometry.vertices[i].y- Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
+        // let dir = new THREE.Vector3(reflectedVerticesGeometry.geometry.vertices[i].x, reflectedVerticesGeometry.geometry.vertices[i].y, 0 );
+        // let origin = new THREE.Vector3( Math.round(reflectedVerticesGeometry.geometry.vertices[i].x), Math.round(reflectedVerticesGeometry.geometry.vertices[i].y), 0 );
 
         // if(Math.round(reflectedVerticesGeometry.geometry.vertices[i].x) == 1.0 && Math.round(reflectedVerticesGeometry.geometry.vertices[i].y) == 1.0){
         if(i == 29){
             console.log("i = "+i+" ; vecRemainder = ("+ (Math.round(reflectedVerticesGeometry.geometry.vertices[i].x) -reflectedVerticesGeometry.geometry.vertices[i].x)+", "+(Math.round(reflectedVerticesGeometry.geometry.vertices[i].y) -reflectedVerticesGeometry.geometry.vertices[i].y))
         }
 
+
         // geometryRemainders.push(new THREE.ArrowHelper( dir, origin, length, 0xff0000 ));
-        geometryRemainders.vertices.push(origin );
+        // geometryRemainders.vertices.push(origin );
+        // geometryRemainders.vertices.push(dir );
+
+        geometryRemainders.vertices.push(O );
         geometryRemainders.vertices.push(dir );
 
 

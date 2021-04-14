@@ -1,5 +1,10 @@
 import * as THREE from './jslibs/three.module.js';
 
+let forestGreen = new THREE.Color(0x009900);
+let deepBlue = new THREE.Color(0x3774CB);
+let deepRed = new THREE.Color(0x721606);
+let red = new THREE.Color(0xff0000);
+
 // just to try
 export var reflectPoint = function (points_i,normalVector) {
     // reflect a set of points given by the "geometry" points_i with respect to the normal vector given by normalVector;
@@ -104,11 +109,56 @@ export var digitalRotationFromReflections = function (points_i,normalVector1,nor
 
 
 
-// export var remainderMap = function (points_i,normalVector1) {
-//     // compute the set of remainder map
-//     // for a given point p and its neighbors p+e1,p-e1,p+e2,p-e2, we compute the set of frames that 
-    
-// }
+// from a known resolution named kmax, compute the set of points that make bijective a digital reflection
+// returns a geometry
+export var  pointsMakingReflectionBijective = function (Kmax) {
+    let pointsBijectiveReflection = new THREE.Geometry();
+    let materialPoints = new THREE.PointsMaterial({color:0xffffff, size: 0.08, vertexColors: true});
+
+
+    for (let k = 0; k < Kmax; k++) {
+        let currentBijetivePoint_0_45 = new THREE.Vector3((k + 1.0) / (Math.sqrt(2.0 * k * k + 2.0 * k + 1.0)),
+                                                     (k)       / (Math.sqrt(2.0 * k * k + 2.0 * k + 1.0)),
+                                                      0.0);
+        let currentBijetivePoint_45_90 = new THREE.Vector3((k ) / (Math.sqrt(2.0 * k * k + 2.0 * k + 1.0)),
+            (k+1)       / (Math.sqrt(2.0 * k * k + 2.0 * k + 1.0)),
+            0.0);
+
+        let currentBijetivePoint_0_45_b = new THREE.Vector3((2*k + 1.0) / (Math.sqrt(4.0 * k * k + 4.0 * k + 2.0)),
+                                                     (1)       / (Math.sqrt(4.0 * k * k + 4.0 * k + 2.0)),
+                                                      0.0);
+        let currentBijetivePoint_45_90_b = new THREE.Vector3((1 ) / (Math.sqrt(4.0 * k * k + 4.0 * k + 2.0)),
+            (2*k+1)       / (Math.sqrt(4.0 * k * k + 4.0 * k + 2.0)),
+            0.0);
+
+
+        let currentBijetivePoint_0_45_c = new THREE.Vector3((2*k + 1.0) / (Math.sqrt(8.0 * k * k + 4.0 * k + 1.0)),
+                                                     (2*k)       / (Math.sqrt(8.0 * k * k + 4.0 * k + 1.0)),
+                                                      0.0);
+        let currentBijetivePoint_45_90_c = new THREE.Vector3((2*k ) / (Math.sqrt(8.0 * k * k + 4.0 * k + 1.0)),
+            (2*k+1.0)       / (Math.sqrt(8.0 * k * k + 4.0 * k + 1.0)),
+            0.0);
+
+
+
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_0_45);
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_45_90);
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_0_45_b);
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_45_90_b);
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_0_45_c);
+        pointsBijectiveReflection.vertices.push(currentBijetivePoint_45_90_c);
+        pointsBijectiveReflection.colors.push(forestGreen);
+        pointsBijectiveReflection.colors.push(forestGreen);
+        pointsBijectiveReflection.colors.push(forestGreen);
+        pointsBijectiveReflection.colors.push(forestGreen);
+        pointsBijectiveReflection.colors.push(forestGreen);
+        pointsBijectiveReflection.colors.push(forestGreen);
+
+    }
+    return new THREE.Points(pointsBijectiveReflection,materialPoints);
+};
+
+
 
 
 

@@ -21,7 +21,7 @@ import * as ENTITIES from '/DigitizedGeometryCreation.js';
   // Our Javascript will go here.
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  var camZPos = 8; // 24
+  var camZPos = 3;//8; // 24
   camera.position.z = camZPos;
 
   console.log("init the scene ...")
@@ -37,31 +37,36 @@ import * as ENTITIES from '/DigitizedGeometryCreation.js';
   let XmaxScene = (~~(N/2));
 
 
-  let geometry_Cells = DG.createCells(N,XminScene,XmaxScene);
-  scene.add(geometry_Cells );
+  // grid reflection decomment
+  // let geometry_Cells = DG.createCells(N,XminScene,XmaxScene);
+  // scene.add(geometry_Cells );
 
 
-  console.log("reflect the z2 grid using a bijective digitized reflection  ...")
+  // console.log("reflect the z2 grid using a bijective digitized reflection  ...")
 
-  // let k = 1.0; // bijective digitized reflection parameters
-  // let a = -k;
-  // let b = k+1.0;
-  let a = -1.0;
-  let b = 4.0;
-
-
-  let reflectedGrid = TRANSFO.digitalReflectionOfPoints(geometry_Grid,[a,b,0.0,0.0]);
-  scene.add(reflectedGrid);
-
-  let setRemaindersVectors = DG.setOfRemainders(reflectedGrid,0xff0000);
-  scene.add(setRemaindersVectors);
+  // // let k = 1.0; // bijective digitized reflection parameters
+  // // let a = -k;
+  // // let b = k+1.0;
+  // let a = -1.0;
+  // let b = 4.0;
 
 
-  // this is to check bijectivity for lower set of points
-  let setRemaindersVectorsTrimed = DG.setOfRemaindersRestreined(reflectedGrid,0x0fff00,a,b,N);
-  scene.add(setRemaindersVectorsTrimed);
+  // let reflectedGrid = TRANSFO.digitalReflectionOfPoints(geometry_Grid,[a,b,0.0,0.0]);
+  // scene.add(reflectedGrid);
+
+  // let setRemaindersVectors = DG.setOfRemainders(reflectedGrid,0xff0000);
+  // scene.add(setRemaindersVectors);
+
+
+  // // this is to check bijectivity for lower set of points
+  // let setRemaindersVectorsTrimed = DG.setOfRemaindersRestreined(reflectedGrid,0x0fff00,a,b,N);
+  // scene.add(setRemaindersVectorsTrimed);
   
+  scene.add(DG.createCircle());
+  scene.add(...DG.createXYAxis(-1.0,1.0));
 
+  let bijectiveReflectionDistrib = TRANSFO.pointsMakingReflectionBijective(30);
+  scene.add(bijectiveReflectionDistrib);
 
 
   // // have to compute the digitization and the other digitized reflection
