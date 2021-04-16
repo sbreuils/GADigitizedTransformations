@@ -21,12 +21,14 @@
 
 #include <klein/klein.hpp>
 
+constexpr float epsilon = 1e-1; 
 
 struct GATriplet
 {
     kln::point klnPt;
     uchar val;
 };
+
 
 typedef std::vector<kln::point> Z2Grid;
 

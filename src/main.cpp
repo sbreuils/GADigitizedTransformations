@@ -3,12 +3,14 @@
 #include <algorithm>
 #include <tuple>
 #include <vector>
+#include <cmath> // for approximation
 
 #include "GADigitizedTransformationImage.h"
 #include "GADigitizedTransformationProperties.h"
 #include "ExternalFilesUtilities.h"
 
 #define DISTRIBUTION 0
+
 
 #if DISTRIBUTION
     #include <opencv2/viz.hpp>
@@ -72,7 +74,7 @@ int main(int argc, char * argv[]){
 
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
-        createZ3Grid(gaZ3Grid, 50, 50, 50); // \todo adapt the size of the grid
+        createZ3Grid(gaZ3Grid, 100, 100, 100); // \todo adapt the size of the grid 50 50 50
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
         // kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
@@ -81,7 +83,7 @@ int main(int argc, char * argv[]){
         // Generate digital reflections through definitions of planes in a domain
         // std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
         // const int lenDomain = 20;
-        const int lenDomain = 10;
+        const int lenDomain = 20;
         TransformationDomain digitizedReflectionDomain = std::make_tuple(0.0,pi/4.0, 0.0, pi/4.0); 
         GAPlanesGeneration gaPlanesGenerator;
         std::vector<kln::plane> gaPlanes = gaPlanesGenerator(lenDomain,digitizedReflectionDomain);
@@ -113,7 +115,28 @@ int main(int argc, char * argv[]){
         // write in file
         writeFile(bijectivePlanesToString(setBijectiveDigitizedReflections), "../listBijectiveDigitizedReflections/bijectiveDigitizedReflectionsSpace.txt");
 
+        // test if after one scale approximation we find a Pythagorean triple (with line of reflection either (2k+1,1) or (k+1,k))
+        for(int i=0 ; i< setBijectiveDigitizedReflections.size() ; ++i){
+            kln::plane gaBijectivePlane = setBijectiveDigitizedReflections[i];
+            float x = gaBijectivePlane.x();
+            float y = gaBijectivePlane.y();
+
+            float k_pi_over_four = y/(x-y);
+            float k_zero = (x-y)/(2.0*y);
+            if(std::abs(std::round(k_pi_over_four)-k_pi_over_four) < std::abs(std::round(k_zero)-k_zero) && std::abs(std::round(k_pi_over_four)-k_pi_over_four) < epsilon ){
+                std::cout << "Bijective digitized reflection, associated k Pi/4 = "<< k_pi_over_four << std::endl;
+            }else{
+                if(std::abs(std::round(k_zero)-k_zero) < std::abs(std::round(k_pi_over_four)-k_pi_over_four) && std::abs(std::round(k_zero)-k_zero) < epsilon){
+                    std::cout << "Bijective digitized reflection, associated k 0 = "<< k_zero << std::endl;
+                }else{
+                    std::cout << "Bijective but NOT a Pythagorean angle, k 0 = "<< k_zero << ", with k 0 error =" << std::abs(std::fmod(k_zero,1.0))
+                                                                                    <<" ;;; k Pi/4 = "<< k_pi_over_four << ", with k pi/4 error =" << std::abs(std::fmod(k_pi_over_four,1.0))
+                                                                                    <<std::endl;
+                }
+            }
+        }
         
+
 
 
 #if DISTRIBUTION
