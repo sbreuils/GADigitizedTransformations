@@ -8,7 +8,7 @@
 #include "GADigitizedTransformationProperties.h"
 #include "ExternalFilesUtilities.h"
 
-#define DISTRIBUTION 0
+#define DISTRIBUTION 1
 
 #if DISTRIBUTION
     #include <opencv2/viz.hpp>
@@ -80,10 +80,16 @@ int main(int argc, char * argv[]){
 
         // Generate digital reflections through definitions of planes in a domain
         // std::vector<kln::plane> gaPlanes = gaPlanesGeneration(10, 0.0f, pi/4.0, 0.0, pi/4.0);
-        const int lenDomain = 20;
+        // const int lenDomain = 20;
+        const int lenDomain = 10;
         TransformationDomain digitizedReflectionDomain = std::make_tuple(0.0,pi/4.0, 0.0, pi/4.0); 
         GAPlanesGeneration gaPlanesGenerator;
         std::vector<kln::plane> gaPlanes = gaPlanesGenerator(lenDomain,digitizedReflectionDomain);
+
+        GAIntegerPlanesGeneration gaIntPlanesGenerator;
+        std::vector<kln::plane> gaIntPlanes = gaIntPlanesGenerator(lenDomain,digitizedReflectionDomain);
+
+        gaPlanes.insert( gaPlanes.end(), gaIntPlanes.begin(), gaIntPlanes.end() );
 
         // Not bijective
         // kln::plane reflectionPlane = kln::plane(sqrt(2.0), 5.0, 7.0, 0.0);
@@ -115,9 +121,9 @@ int main(int argc, char * argv[]){
         bijectiveDigitizedReflections_distribution.setBackgroundColor(cv::viz::Color::white());
     
         cv::Point3d Orig(0.0, 0.0, 0.0);
-        cv::viz::WSphere sphere(Orig, 1.0, 20, cv::viz::Color::blue());
+        cv::viz::WSphere sphere(Orig, 1.0, 20, cv::viz::Color::green());
         sphere.setRenderingProperty(cv::viz::LINE_WIDTH, 4.0);
-
+        sphere.setRenderingProperty(cv::viz::OPACITY,0.3);
 
 
         // display point cloud
@@ -126,14 +132,14 @@ int main(int argc, char * argv[]){
 
         for(auto plane : setBijectiveDigitizedReflections){
             pointVec.push_back(cv::Point3f(plane.x(), plane.y(), plane.z()));
-    	    colorVec.push_back(cv::Vec3b(0, 2, 128));
+    	    colorVec.push_back(cv::Vec3b(128, 2, 0));
         }
     
         // bijectiveDigitizedReflections_distribution.showWidget("Axis widget", cv::viz::WCoordinateSystem());
-        // bijectiveDigitizedReflections_distribution.showWidget("sphere widget", sphere);
+        bijectiveDigitizedReflections_distribution.showWidget("sphere widget", sphere);
 
     	cv::viz::WCloud cloud_widget(pointVec, colorVec);
-        cloud_widget.setRenderingProperty(cv::viz::POINT_SIZE,5.0);
+        cloud_widget.setRenderingProperty(cv::viz::POINT_SIZE,7.0);
 
         bijectiveDigitizedReflections_distribution.showWidget("cloud", cloud_widget);
 

@@ -47,7 +47,6 @@ public:
 
                 if((x+y)<=z)
                     planesVector.push_back(kln::plane(x,y,z,0.0f));
-
             }
         }
 
@@ -59,7 +58,34 @@ public:
 
 
 
+/// generation of planes for digitized reflections inside the domain defined by region 
+class GAIntegerPlanesGeneration : public GATransformationsGeneration
+{
+public:
 
+    inline
+    std::vector<kln::plane> operator()( const int N, const TransformationDomain angleRegion ) const override
+    {
+        std::vector<kln::plane> planesVector;
+
+
+        for(int x= 0 ; x<N ; ++x ){
+            for(int y=0 ; y<N ; ++y){
+                for(int k=0 ; k<N ; ++k){
+                    float z=x+y+k;
+
+                    // std::cout << "Plane : x="<<x<<", y="<<y<<", z="<<z<<std::endl;
+                    float norm = sqrt(x*x + y*y + z*z);
+                    planesVector.push_back(kln::plane(x/norm,y/norm,z/norm,0.0f));
+                }
+            }
+        }
+
+        // planesVector.push_back(kln::plane(-3.0, 4.0, 7.0, 0.0));
+        return planesVector;
+    }
+
+};
 
 
 
