@@ -9,7 +9,7 @@
 #include "GADigitizedTransformationProperties.h"
 #include "ExternalFilesUtilities.h"
 
-#define DISTRIBUTION 1
+#define DISTRIBUTION 0
 
 
 #if DISTRIBUTION
