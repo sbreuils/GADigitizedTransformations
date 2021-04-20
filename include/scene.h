@@ -21,7 +21,7 @@
 
 #include <klein/klein.hpp>
 
-constexpr float epsilon = 1e-1; 
+constexpr float epsilon = 1e-2;
 
 struct GATriplet
 {

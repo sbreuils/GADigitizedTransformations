@@ -8,13 +8,16 @@
 #include <sstream>
 
 
-#include <klein/klein.hpp>
-#include <vector>
-#include <tuple> 
+#include <tuple>
+
+#include "scene.h"
 
 /// Basic tools to manipulate files and directories.
 
 std::string bijectivePlanesToString(const std::vector<kln::plane>& gaPlanes);
+
+std::string bijectivePlanesDetailedToString(const std::vector<kln::plane>& gaPlanes);
+
 
 std::string readFile(const std::string& fileName);
 

@@ -9,7 +9,7 @@
 #include "GADigitizedTransformationProperties.h"
 #include "ExternalFilesUtilities.h"
 
-#define DISTRIBUTION 0
+#define DISTRIBUTION 1
 
 
 #if DISTRIBUTION
@@ -74,7 +74,8 @@ int main(int argc, char * argv[]){
 
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
-        createZ3Grid(gaZ3Grid, 100, 100, 100); // \todo adapt the size of the grid 50 50 50
+        const int sideGrid = 4;
+        createZ3Grid(gaZ3Grid, sideGrid, sideGrid, sideGrid); // \todo adapt the size of the grid 50 50 50
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;
         // kln::point normalVectorReflectionLine = kln::point(-4.0, 3.0, 0.0);
@@ -113,28 +114,10 @@ int main(int argc, char * argv[]){
         }
 
         // write in file
-        writeFile(bijectivePlanesToString(setBijectiveDigitizedReflections), "../listBijectiveDigitizedReflections/bijectiveDigitizedReflectionsSpace.txt");
+//        writeFile(bijectivePlanesToString(setBijectiveDigitizedReflections), "../listBijectiveDigitizedReflections/bijectiveDigitizedReflectionsPlane"+std::to_string(sideGrid)+".txt");
+        writeFile(bijectivePlanesDetailedToString(setBijectiveDigitizedReflections), "../listBijectiveDigitizedReflections/bijectiveDigitizedReflectionsPlane"+std::to_string(sideGrid)+".txt");
 
-        // test if after one scale approximation we find a Pythagorean triple (with line of reflection either (2k+1,1) or (k+1,k))
-        for(int i=0 ; i< setBijectiveDigitizedReflections.size() ; ++i){
-            kln::plane gaBijectivePlane = setBijectiveDigitizedReflections[i];
-            float x = gaBijectivePlane.x();
-            float y = gaBijectivePlane.y();
 
-            float k_pi_over_four = y/(x-y);
-            float k_zero = (x-y)/(2.0*y);
-            if(std::abs(std::round(k_pi_over_four)-k_pi_over_four) < std::abs(std::round(k_zero)-k_zero) && std::abs(std::round(k_pi_over_four)-k_pi_over_four) < epsilon ){
-                std::cout << "Bijective digitized reflection, associated k Pi/4 = "<< k_pi_over_four << std::endl;
-            }else{
-                if(std::abs(std::round(k_zero)-k_zero) < std::abs(std::round(k_pi_over_four)-k_pi_over_four) && std::abs(std::round(k_zero)-k_zero) < epsilon){
-                    std::cout << "Bijective digitized reflection, associated k 0 = "<< k_zero << std::endl;
-                }else{
-                    std::cout << "Bijective but NOT a Pythagorean angle, k 0 = "<< k_zero << ", with k 0 error =" << std::abs(std::fmod(k_zero,1.0))
-                                                                                    <<" ;;; k Pi/4 = "<< k_pi_over_four << ", with k pi/4 error =" << std::abs(std::fmod(k_pi_over_four,1.0))
-                                                                                    <<std::endl;
-                }
-            }
-        }
         
 
 
@@ -144,22 +127,54 @@ int main(int argc, char * argv[]){
         bijectiveDigitizedReflections_distribution.setBackgroundColor(cv::viz::Color::white());
     
         cv::Point3d Orig(0.0, 0.0, 0.0);
-        cv::viz::WSphere sphere(Orig, 1.0, 20, cv::viz::Color::green());
-        sphere.setRenderingProperty(cv::viz::LINE_WIDTH, 4.0);
-        sphere.setRenderingProperty(cv::viz::OPACITY,0.3);
+//        cv::viz::WSphere sphere(Orig, 1.0, 20, cv::viz::Color::green());
+        cv::viz::WCircle circle( 1.0,0.02,cv::viz::Color::green());
+
+//        sphere.setRenderingProperty(cv::viz::LINE_WIDTH, 4.0);
+//        sphere.setRenderingProperty(cv::viz::OPACITY,0.3);
 
 
         // display point cloud
         std::vector<cv::Point3f> pointVec; 
 	    std::vector<cv::Vec3b> colorVec;   
 
-        for(auto plane : setBijectiveDigitizedReflections){
-            pointVec.push_back(cv::Point3f(plane.x(), plane.y(), plane.z()));
-    	    colorVec.push_back(cv::Vec3b(128, 2, 0));
+
+        for(int i=0 ; i< setBijectiveDigitizedReflections.size() ; ++i){
+            kln::plane gaBijectivePlane = setBijectiveDigitizedReflections[i];
+            float x = gaBijectivePlane.x();
+            float y = gaBijectivePlane.y();
+
+            float k_pi_over_four = y/(x-y);
+            float k_zero = (x-y)/(2.0f*y);
+            if(std::abs(std::round(k_pi_over_four)-k_pi_over_four) < std::abs(std::round(k_zero)-k_zero) && std::abs(std::round(k_pi_over_four)-k_pi_over_four) < epsilon ){
+                pointVec.push_back(cv::Point3f(gaBijectivePlane.x(), gaBijectivePlane.y(), gaBijectivePlane.z()));
+                colorVec.push_back(cv::Vec3b(128, 2, 0));
+//                data += std::to_string(gaBijectivePlane.x()) + ", " + std::to_string(gaBijectivePlane.y()) + ", " + std::to_string(gaBijectivePlane.z())
+//                        + " ; ( "+ std::to_string(k_pi_over_four+1)+ " ,"+ std::to_string(k_pi_over_four) + ")\n"; //"Bijective digitized reflection, associated k Pi/4 = "<< k_pi_over_four << std::endl;
+            }else{
+                if(std::abs(std::round(k_zero)-k_zero) < std::abs(std::round(k_pi_over_four)-k_pi_over_four) && std::abs(std::round(k_zero)-k_zero) < epsilon){
+                    pointVec.push_back(cv::Point3f(gaBijectivePlane.x(), gaBijectivePlane.y(), gaBijectivePlane.z()));
+                    colorVec.push_back(cv::Vec3b(128, 2, 0));
+                }else{
+                    if(k_zero == 0){
+                        pointVec.push_back(cv::Point3f(gaBijectivePlane.x(), gaBijectivePlane.y(), gaBijectivePlane.z()));
+                        colorVec.push_back(cv::Vec3b(128, 2, 0));
+                    }
+                    else {
+                        pointVec.push_back(cv::Point3f(gaBijectivePlane.x(), gaBijectivePlane.y(), gaBijectivePlane.z()));
+                        colorVec.push_back(cv::Vec3b(128, 2, 255));
+                    }
+                }
+            }
         }
+
+
     
-        // bijectiveDigitizedReflections_distribution.showWidget("Axis widget", cv::viz::WCoordinateSystem());
-        bijectiveDigitizedReflections_distribution.showWidget("sphere widget", sphere);
+         bijectiveDigitizedReflections_distribution.showWidget("Axis widget", cv::viz::WCoordinateSystem());
+//        bijectiveDigitizedReflections_distribution.showWidget("sphere widget", sphere);
+
+        bijectiveDigitizedReflections_distribution.showWidget("circle widget", circle);
+
 
     	cv::viz::WCloud cloud_widget(pointVec, colorVec);
         cloud_widget.setRenderingProperty(cv::viz::POINT_SIZE,7.0);
