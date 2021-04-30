@@ -74,7 +74,7 @@ int main(int argc, char * argv[]){
 
         std::cout << "load Z3 grid as a grid of GA points ..." << std::endl;
         Z3Grid gaZ3Grid;
-        const int sideGrid = 4;
+        const int sideGrid = 10;
         createZ3Grid(gaZ3Grid, sideGrid, sideGrid, sideGrid); // \todo adapt the size of the grid 50 50 50
 
         std::cout << "test bijectivity of digitized reflections ..." << std::endl;

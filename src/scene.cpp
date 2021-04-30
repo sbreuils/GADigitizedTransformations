@@ -72,15 +72,15 @@ void createZ2Grid(Z2Grid& pts, const int width, const int height){
 
 /// create a grid of Z3 (with only integer coordinates)
 void createZ3Grid(Z3Grid& pts, const int width, const int length, const int height){
-    // for(int z =0 ; z< height ; ++z){
+     for(int z =0 ; z< height ; ++z){
         for(int y=0 ; y<width ; ++y){
             for(int x=0 ; x<length ; ++x){
                 // 3d
-                // pts.push_back(kln::point((int)x-((int)length/2),(int)y-((int)width/2),(int)z-((int)height/2)));
+                 pts.push_back(kln::point((int)x-((int)length/2),(int)y-((int)width/2),(int)z-((int)height/2)));
                 // 2d
-                pts.push_back(kln::point((int)x-((int)length/2),(int)y-((int)width/2),0.0));
+//                pts.push_back(kln::point((int)x-((int)length/2),(int)y-((int)width/2),0.0));
             }
         }
-    // }
+     }
 
 }

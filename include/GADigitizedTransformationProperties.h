@@ -89,9 +89,9 @@ bool isDigitizedReflectionBijective_withLineCondition(Z3Grid grid, kln::plane re
 
     std::cout << "number of grid points that are tested =" << grid.size() << std::endl;
 
-    kln::point ptOriginCell1 = kln::point( -0.5, -0.5 ,0.5);
-    kln::point ptOriginCell2 = kln::point( -0.5, 0.5 ,0.5);
-    kln::point ptOriginCell3 = kln::point( 0.5, 0.5 ,0.5);
+//    kln::point ptOriginCell1 = kln::point( -0.5, -0.5 ,0.5);
+//    kln::point ptOriginCell2 = kln::point( -0.5, 0.5 ,0.5);
+//    kln::point ptOriginCell3 = kln::point( 0.5, 0.5 ,0.5);
 
 
     for (auto pt1 : grid) {
